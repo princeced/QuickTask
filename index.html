@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasak</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    window.onload = () => {
+        promises();
+    };
+
+    let SchemeAmount = 5000;
+    let parentName;
+    let childNames;
+    let childcheck;
+    let parentcom;
+    let childcom;
+    let childArray;
+
+
+
+    let promises = () => {
+        new Promise((success, error) => {
+
+            parentName = prompt("Enter parent name");
+
+            if (parentName === null) {
+
+                alert("Do you want to leave");
+
+            } else {
+
+                if (parentName != "" && parentName.trim() != "") {
+
+                    childcheck = prompt("Do you have child or not Y/N");
+
+                    if (childcheck === null) {
+
+                        alert("Do you want to leave");
+
+                    } else {
+
+                        if (childcheck != "") {
+                            if (childcheck == "Y" || childcheck == "y") {
+
+                                childNames = (prompt("Enter children names using , comma")).split(',');
+                                childArray = childNames.filter(function(str) {
+                                    return /\S/.test(str);
+                                });
+
+                                success({
+                                    "parentName": parentName,
+                                    "childArray": childArray,
+
+                                });
+
+                            } else if (childcheck == "N" || childcheck == "n") {
+
+                                childArray = "";
+                                success({
+                                    "parentName": parentName,
+                                    "childArray": childArray,
+                                });
+
+                            }
+                        } else {
+
+                            error(new Error("Enter proper y/n"));
+                        }
+                    }
+                } else {
+
+                    error(new Error("Enter name "));
+                }
+
+            }
+        }).then((success) => {
+
+                if (childArray != "") {
+
+
+
+                    let len = childArray.length;
+
+                    parentcom = len * (SchemeAmount * 0.10);
+                    childcom = (SchemeAmount * 0.05);
+
+                    let hh = document.createElement("H1");
+                    let tt = document.createTextNode(`Total Members:  ${(len + 1)}`);
+                    hh.appendChild(tt);
+                    document.body.appendChild(hh);
+
+                    let cdHeading = document.createElement("H1");
+                    let cdt = document.createTextNode("COMISSION DETAILS");
+                    cdHeading.appendChild(cdt);
+                    document.body.appendChild(cdHeading);
+
+                    let cdBody = document.createElement("H1");
+                    let cdtt = document.createTextNode(`${parentName} : ${parentcom}`);
+                    cdBody.appendChild(cdtt);
+                    document.body.appendChild(cdBody);
+
+
+                    for (let i = 0; i < len; i++) {
+
+                        let para = document.createElement("H1");
+                        let node = document.createTextNode(`${childArray[i]} : ${childcom}`);
+                        para.appendChild(node);
+                        document.body.appendChild(para);
+                    }
+
+                } else {
+
+                    parentcom = (SchemeAmount * 0.05);
+
+                    let hh = document.createElement("H1");
+                    let tt = document.createTextNode(`Total Members:  1`);
+                    hh.appendChild(tt);
+                    document.body.appendChild(hh);
+
+                    let cdHeading = document.createElement("H1");
+                    let cdt = document.createTextNode("COMISSION DETAILS");
+                    cdHeading.appendChild(cdt);
+                    document.body.appendChild(cdHeading);
+
+                    let cdBody = document.createElement("H1");
+                    let cdtt = document.createTextNode(`${parentName} : ${parentcom}`);
+                    cdBody.appendChild(cdtt);
+                    document.body.appendChild(cdBody);
+
+                }
+
+
+            },
+            (error) => {
+                alert(error);
+            }, )
+    };
+</script>
+
+</html>
